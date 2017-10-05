@@ -11,6 +11,10 @@ import IncloudScreen from './src/screens/IncloudScreen';
 import OutcloudScreen from './src/screens/OutcloudScreen';
 import ProfileScreen from './src/screens/ProfileScreen'
 
+import ChatScreen from './src/screens/ChatScreen'
+import FriendsScreen from './src/screens/FriendsScreen'
+import TaggedScreen from './src/screens/TaggedScreen'
+
 export default class App extends React.Component {
   componentDidMount() {
 
@@ -19,13 +23,29 @@ export default class App extends React.Component {
   render() {
     const MainNavigator = TabNavigator({
       camera: { screen: CameraScreen },
-      outcloud: { screen: OutcloudScreen },
+      outcloud: {
+        screen: StackNavigator({
+          main: { screen: OutcloudScreen },
+          profile: {
+            screen: TabNavigator({
+              profileHome: { screen: ProfileScreen },
+              friends: { screen: FriendsScreen },
+              chat: {screen: ChatScreen },
+              tagged: {screen: TaggedScreen }
+            }, {
+              navigationOptions: {
+                tabBarVisible: true
+              }}
+            )
+          }
+        })
+      },
       incloud: { screen: IncloudScreen }
     }, {
       navigationOptions: {
         tabBarVisible: false
       },
-      swipeEnabled: true, 
+      swipeEnabled: true,
       lazy: true
     });
 
